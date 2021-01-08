@@ -11,7 +11,7 @@ const initGame = () => {
    activePlayer = 0 // 0 first player, 1 second player
    lastDice = 0
 
-   document.querySelector('.dice').style.display = 'none'
+   Array.from(document.querySelectorAll('.dice')).map(e => e.style.display = 'none')
    document.getElementById('name--0').innerText = 'Player 1' 
    document.getElementById('name--1').innerText = 'Player 2' 
    document.querySelector('#score--0').textContent = '0'
@@ -30,8 +30,6 @@ const initGame = () => {
 }
 initGame()
 
-document.querySelector('.dice').style.display = 'none'
-
 document.getElementById('score--0').textContent = '0'
 document.getElementById('score--1').textContent = '0'
 document.getElementById('current--0').textContent = '0'
@@ -39,7 +37,7 @@ document.getElementById('current--1').textContent = '0'
 
 const changePlayer = () => {
    roundScore = 0
-   document.querySelector('.dice').style.display = 'none'
+   Array.from(document.querySelectorAll('.dice')).map(e => e.style.display = 'none')
    document.querySelector('#current--' + activePlayer).textContent = 0
    activePlayer = activePlayer ? 0 : 1
    document.querySelector('.player--1').classList.toggle('player--active')
@@ -47,29 +45,31 @@ const changePlayer = () => {
 }
 
 document.querySelector('.btn--roll').addEventListener('click', () => {
-   let dice = Math.floor(Math.random() * 6) + 1
-   let diceDOM = document.querySelector('.dice')
-   
+   let dice1 = Math.floor(Math.random() * 6) + 1
+   let dice2 = Math.floor(Math.random() * 6) + 1
    // Display the result
-   document.querySelector('#current--' + activePlayer).innerHTML = dice
-   diceDOM.style.display = 'block'
-   diceDOM.src = 'dice-' + dice + '.png'
+   document.querySelector('#current--' + activePlayer).innerHTML = dice1 + dice2
+   Array.from(document.querySelectorAll('.dice')).map(e => e.style.display = 'block')
+
+   document.getElementById('dice-1').src = 'dice-' + dice1 + '.png'
+   document.getElementById('dice-2').src = 'dice-' + dice2 + '.png'
 
    // if there are two 6 in a row, the player lose his score
-   if (dice === 6 && lastDice === 6) {
+   if ((dice1 + dice2) === 12 && lastDice === 12) {
       scores[activePlayer] = 0
       document.getElementById('score--' + activePlayer).textContent = scores[activePlayer]
-      dice = 0
+      dice1 = 0
+      dice2 = 0
       changePlayer()
    }// update the round score if the rolled number was NOT a 1
-   else if (dice !== 1) {
-      roundScore += dice
+   else if (dice1 !== 1 && dice2 !== 1) {
+      roundScore += dice1 + dice2
       document.querySelector('#current--' + activePlayer).textContent = roundScore
    } else {
       changePlayer()
    }
 
-   lastDice = dice
+   lastDice = dice1 + dice2
 })
 
 document.querySelector('.btn--hold').addEventListener('click', () => {
