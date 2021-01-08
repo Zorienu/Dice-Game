@@ -1,4 +1,5 @@
 
+let winScore = 100
 let scores = [0, 0]
 let roundScore = 0
 let activePlayer = 0 // 0 first player, 1 second player
@@ -37,6 +38,7 @@ document.getElementById('current--0').textContent = '0'
 document.getElementById('current--1').textContent = '0'
 
 const changePlayer = () => {
+   roundScore = 0
    document.querySelector('.dice').style.display = 'none'
    document.querySelector('#current--' + activePlayer).textContent = 0
    activePlayer = activePlayer ? 0 : 1
@@ -53,25 +55,18 @@ document.querySelector('.btn--roll').addEventListener('click', () => {
    diceDOM.style.display = 'block'
    diceDOM.src = 'dice-' + dice + '.png'
 
-   // update the round score if the rolled number was NOT a 1
-   if (dice !== 1) {
-      roundScore += dice
-      document.querySelector('#current--' + activePlayer).textContent = roundScore
-   } else {
-      roundScore = 0
-      changePlayer()
-      diceDOM.style.display = 'none'
-   }
    // if there are two 6 in a row, the player lose his score
    if (dice === 6 && lastDice === 6) {
       scores[activePlayer] = 0
       document.getElementById('score--' + activePlayer).textContent = scores[activePlayer]
-      console.log('looser')
-      roundScore = 0
-      lastDice = 0
       dice = 0
       changePlayer()
-      diceDOM.style.display = 'none'
+   }// update the round score if the rolled number was NOT a 1
+   else if (dice !== 1) {
+      roundScore += dice
+      document.querySelector('#current--' + activePlayer).textContent = roundScore
+   } else {
+      changePlayer()
    }
 
    lastDice = dice
@@ -85,7 +80,7 @@ document.querySelector('.btn--hold').addEventListener('click', () => {
    const playerScore = document.getElementById('score--' + activePlayer)
    playerScore.textContent = scores[activePlayer]
 
-   if (scores[activePlayer] >= 100) {
+   if (scores[activePlayer] >= winScore) {
       document.getElementById('name--' + activePlayer).innerText = 'Winner' 
       document.querySelector('.player--' + activePlayer).classList.add('player--winner')
       document.querySelector('.player--' + activePlayer).classList.remove('player--active')
@@ -98,3 +93,9 @@ document.querySelector('.btn--hold').addEventListener('click', () => {
 
 // new game button
 document.querySelector('.btn--new').addEventListener('click', initGame)
+
+// set win score
+document.querySelector('.btn--win-score').addEventListener('click', () => {
+   const score = document.querySelector('.input-win-score').value
+   if (score) winScore = score
+})

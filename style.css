@@ -32,7 +32,7 @@ main {
   filter: blur();
   box-shadow: 0 3rem 5rem rgba(0, 0, 0, 0.25);
   border-radius: 9px;
-  overflow: hidden;
+  /*overflow: hidden;*/
   display: flex;
 }
 
@@ -133,10 +133,10 @@ main {
   top: 4rem;
 }
 .btn--roll {
-  top: 39.3rem;
+  top: 36.3rem;
 }
 .btn--hold {
-  top: 46.1rem;
+  top: 43.1rem;
 }
 
 .btn:active {
@@ -157,6 +157,9 @@ main {
   box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.2);
 }
 
+#dice-1 { top: 120px; }
+#dice-2 { top: 250px; }
+
 .player--winner {
   background-color: #2f2f2f;
 }
@@ -164,4 +167,24 @@ main {
 .player--winner .name {
   font-weight: 700;
   color: #c7365f;
+}
+
+.input-win-score {
+   top: 562px;
+   width: 250px;
+   text-align: center;
+   border-radius: 10px;
+   border-bottom-left-radius: 0; 
+   border-bottom-right-radius: 0; 
+}
+
+.btn--win-score {
+   top: 600px;
+   z-index: 100;
+   color: #fff;
+   background-color: #c7365f;
+   width: 250px;
+   border-radius: 10px;
+   border-top-right-radius: 0; 
+   border-top-left-radius: 0; 
 }
